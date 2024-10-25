@@ -1,0 +1,456 @@
+<!--
+Gives each question seperately at the end
+-->
+
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="Cache-control" content="public">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Apha-Mini Storytime!</title>
+	<!-- Style taken from https://raw.githubusercontent.com/hypertexthero/htmlformtofile/master/index.html-->
+	<style type="text/css" media="screen">
+		body {font-family:verdana, sans-serif;  font-weight: 700; color:#271d1d; background:#f5b0b0; padding:20px; text-align:center;}
+		h1 {font-size:50px; font-weight: bold; text-align:center; color: #920be1;}
+		label {font-size:20px;font-weight: bold;}
+		button {margin-left:205px; padding:5px; margin-top:5px; font-size:16px;}
+		textarea {width:400px; font-size:16px; font-family: courier, "courier new", monospace; margin:0 0 5px 0; padding:5px; border:1px solid #eee; }
+		select {margin:0 0 5px 0;}
+		::placeholder {color:#d4d2d2;}
+		.disabled{
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+		.color-update{
+			background-color: #007bff;
+		}
+		.slider{
+			width: 400px;
+			height: 30px;
+			background: #d3d3d3;
+			outline: none;
+			opacity: 0.7;
+			-webkit-transition: .2s;
+			transition: opacity .2s;
+		}
+
+		.container{
+			display: flex;
+			justify-content: space-around;
+			margin-bottom: 10px;
+		}
+
+		textarea{
+			width: 75%;
+			height: 100px;
+			margin-top: 10px; 
+			background-color: #fff9c4;
+			overflow-y: hidden; 
+					
+		}
+
+		#storyPrompt {
+			background-color: #F2F2F2;
+		}
+		#editableText{
+			background-color:#fff9c4;
+			display: none;
+		}
+
+		.button-container {
+			text-align: center;
+			margin-top: 10px;
+		}
+		button{
+			margin: 5px;
+			padding: 5px  10px;
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: 900;
+			padding: 15px;
+			letter-spacing: 1px;
+			font-size: 20px;
+			background-color: #af00b5;
+			border: 5px solid rgb(248, 149,s 19);
+			cursor: pointer; /*cursor to hand pointer*/			
+		}
+		button:hover{
+			background-color: #820767;
+		}
+		#submit-button:hover{
+			background-color: #ffb74d;
+		}	
+		
+		#mainButtons-container{
+			text-align: center;
+			padding: 20px;
+		}
+
+        #mainButtonscontainer2{
+			text-align: center;
+			padding: 20px;
+		}
+		#main-button{
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: 900;
+			padding: 50px;
+			letter-spacing: 1px;
+			font-size: 40px;
+			background-color: rgb(244, 159, 231);
+			border: 5px solid blueviolet;
+			cursor: pointer; /*cursor to hand pointer*/
+		}
+		#main-button:hover{
+			background-color: blueviolet;
+		}
+		#submit-button{
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: 900;
+			padding: 15px;
+			letter-spacing: 1px;
+			font-size: 20px;
+			background-color: rgb(255, 220, 78);
+			border: 5px solid rgb(248, 149,19);
+			cursor: pointer; /*cursor to hand pointer*/			
+		}
+		#submit-button:hover{
+			background-color: rgb(248, 149, 19);
+		}
+
+		.container2 {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			}
+
+		.button-group2 {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.header2 {
+			font-size: 20px;
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+
+		.checkbox-label, .radio-label {
+			display:list-item;
+			margin-bottom: 10px;
+			padding: 5px;
+			background-color: #b6ebdf;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.checkbox-label:hover, .radio-label:hover {
+			background-color: #12a1c4;
+		}
+
+		.container_form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        h2 {
+            color: #6a1b9a;
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+        .sub-title {
+            color: #6a1b9a;
+            text-align: center;
+            font-size: 1em;
+            background: #6a1b9a;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: -20px auto 30px auto;
+            display: inline-block;
+        }
+        .question {
+            margin-bottom: 30px;
+            position: relative;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .highlight {
+            background-color: #b3e5fc;
+        }
+        .question label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .slider_form {
+            width: 100%;
+            margin: 0 10px;
+        }
+        .label_form {
+            display: flex;
+            align-items: center;
+        }
+        .label_form span {
+            margin-left: 5px;
+            font-weight: bold;
+            color: #6a1b9a;
+        }
+        .comments {
+            margin-bottom: 30px;
+        }
+        .comments textarea {
+            width: 100%;
+            height: 100px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1em;
+            resize: vertical;
+        }
+       
+        .submit-btn {
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        .submit-btn:hover {
+            background-color: #4a148c;
+        }
+        .blue { background-color: #b3e5fc; }
+        .green { background-color: #c8e6c9; }
+        .yellow { background-color: #fff9c4; }
+        .orange { background-color: #ffe0b2; }
+        .purple { background-color: #d1c4e9; }
+        .pink { background-color: #f8bbd0; }
+		
+	</style>
+</head>
+ 
+<body >
+    <h1> &#x1F916; &#x1F916; Storytime with Alpha-Mini &#x1F916; &#x1F916;  !</h1>
+	<br>
+	
+	<div id = "sessionDiv"> 
+        <label> &#x1F916; Story: </label><br>
+		<textarea id="story" readonly ></textarea><br>
+        <br>
+        <button onclick="startStory(this)">Start Storytelling </button>
+        <br>
+        <br>
+        <br>
+        <div id = "questionPart">
+            <label> &#x1F916; Q&A Session: </label><br> 
+            <br>
+            <br>
+                <label> &#x1F916; Question 1: </label><br>
+                <textarea id="question1" readonly ></textarea><br>
+                <button onclick="askQuestion1(this)">Ask Question 1</button>
+                <br>
+                <br>
+                <label> &#x1F916; Answer 1: </label><br>
+                <textarea id="answer1" readonly ></textarea><br>
+                <button onclick="tellAnswer1(this)">Tell Answer 1</button>
+                <br>
+                <br>
+                <br>
+                <label> &#x1F916; Question 2: </label><br>
+                <textarea id="question2" readonly ></textarea><br>
+                <button onclick="askQuestion2(this)">Ask Question 2</button>
+                <br>
+                <br>
+                <label> &#x1F916; Answer 2: </label><br>
+                <textarea id="answer2" readonly ></textarea><br>
+                <button onclick="tellAnswer2(this)">Tell Answer 2</button>
+                <br>
+                <br>
+                <br>
+                <label> &#x1F916; Question 3: </label><br>
+                <textarea id="question3" readonly ></textarea><br>
+                <button onclick="askQuestion3(this)">Ask Question 3</button>
+                <br>
+                <br>
+                <label> &#x1F916; Answer 3: </label><br>
+                <textarea id="answer3" readonly ></textarea><br>
+                <button onclick="tellAnswer3(this)">Tell Answer 3</button>
+             
+
+        </div>
+        <br>
+        <br>
+        <br>
+        
+	</div>		
+	<button onclick="stopServer()">Exit</button>
+		
+	</div>
+</body>
+ 
+<script>
+    function askQuestion1(button){
+       
+        q1 = document.getElementById('question1').value;
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("cQ1" + " " + q1);});
+        button.innerText = 'Repeat Questions';
+    }
+
+    function tellAnswer1(button){
+        a1 = document.getElementById('answer1').value;
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("cA1" + " " + a1);});
+        button.innerText = 'Repeat Answer';
+
+    }
+
+    function askQuestion2(button){
+        q2 = document.getElementById('question2').value;
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("cQ2"+ " " + q2);});
+        button.innerText = 'Repeat Questions';
+    }
+
+    function tellAnswer2(button){
+        a2 = document.getElementById('answer2').value;
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("cA2" + " " + a2);});
+        button.innerText = 'Repeat Answer';
+
+    }
+
+    function askQuestion3(button){
+        q3 = document.getElementById('question3').value;
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("cQ3"+ " " + q3);});
+        button.innerText = 'Repeat Questions';
+    }
+
+    function tellAnswer3(button){
+        a3 = document.getElementById('answer3').value;
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("cA3"+ " " + a3);});
+        button.innerText = 'Repeat Answer';
+
+    } 
+
+	function startStory(button){
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("start");});
+        button.innerText = 'Repeat Story';
+        }
+    
+    function extractItems(text, heading) {
+        const cleanedText = text.replace(heading, "").trim();
+
+        const delimiter = heading === "Questions:" ? /\d+\.\s/g : /\d+\.\s/g; // Match numbers followed by a period and space
+        const items = cleanedText.split(delimiter).map(item => item.trim()).filter(item => item.length > 0);
+
+        return items;
+    }
+
+    
+    
+   
+    function askQuestions(){
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("continue");});
+        button.innerText = 'Repeat Questions';
+    }
+   
+	function updateHeight(textValue){
+		textValue.style.height = 'auto'; // reset height to shrink grow as needed
+		textValue.style.height = textValue.scrollHeight + 'px'; // set height to to the text value height
+	}
+
+    const stopServer = () => {
+        const socket = new WebSocket('ws://localhost:10000');
+		socket.addEventListener('open', function(event){
+			socket.send("close");});
+        window.location.href = 'survey.html'; // Redirect to the survey page
+    }
+
+   
+
+    window.onload = function(){
+		var storedTopic = localStorage.getItem('sharedTopic');
+        var storedStory = localStorage.getItem('sharedStory');
+        var storedQuestions = localStorage.getItem('sharedQuestions');
+        var storedJustQuestions = localStorage.getItem('sharedJustQuestions');
+        var storedJustAnswers = localStorage.getItem('sharedJustAnswers');
+
+        const questionsArray = extractItems(storedJustQuestions, "Questions:");
+        const answersArray = extractItems(storedJustAnswers, "Answers:");
+       
+
+	
+        if (storedStory) {
+			var sessionStory= document.getElementById('story');
+			sessionStory.textContent= storedStory;
+			updateHeight(sessionStory);
+		}
+
+        var sessionQuestion1= document.getElementById('question1');
+        var sessionQuestion2= document.getElementById('question2');
+        var sessionQuestion3= document.getElementById('question3');
+
+        var sessionAnswer1= document.getElementById('answer1');
+        var sessionAnswer2= document.getElementById('answer2');
+        var sessionAnswer3= document.getElementById('answer3');
+
+        var sessionQuestionDiv = document.getElementById('questionPart');
+        if (storedQuestions!= "\n") {			
+			sessionQuestion1.textContent= questionsArray[0];
+            sessionAnswer1.textContent= answersArray[0];
+
+            sessionQuestion2.textContent= questionsArray[1];
+            sessionAnswer2.textContent= answersArray[1];
+
+            sessionQuestion3.textContent= questionsArray[2];
+            sessionAnswer3.textContent= answersArray[2];
+
+			updateHeight(sessionQuestion1)
+            updateHeight(sessionAnswer1)
+
+            updateHeight(sessionQuestion2)
+            updateHeight(sessionAnswer2)
+
+            updateHeight(sessionQuestion3)
+            updateHeight(sessionAnswer3)
+
+		}else{
+            sessionQuestionDiv.style.display='none';
+        }
+	}    
+	
+</script>
+ 
+</html>
